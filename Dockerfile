@@ -1,0 +1,25 @@
+# Use official Nginx image as base (for serving static content)
+FROM nginx:alpine
+
+LABEL maintainer="lolasemerethrebecca@gmail.com"
+LABEL description="Site statique html5up-forty servi par Nginx"
+LABEL version="1.0"
+
+# Copy our app files into the default Nginx document root (/usr/share/nginx/html)
+COPY index.html /usr/share/nginx/html/
+COPY elements.html /usr/share/nginx/html/
+COPY generic.html /usr/share/nginx/html/
+COPY landing.html /usr/share/nginx/html/
+COPY assets /usr/share/nginx/html/assets
+COPY images /usr/share/nginx/html/images
+COPY LICENSE.txt /usr/share/nginx/html/
+COPY README.txt /usr/share/nginx/html/
+
+# Supprimer la config nginx par défaut et ajouter la nôtre
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Expose port 80 for HTTP access (Nginx listens on port 80 by default)
+EXPOSE 80
+
+# Run command when container starts up
+CMD ["nginx", "-g", "daemon off;"]
